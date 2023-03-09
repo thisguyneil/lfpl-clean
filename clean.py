@@ -83,14 +83,25 @@ def main() -> None:
     validate_columns(books_df)
 
     # 1. TODO: Remove unneeded columns (ISBN, ReportDate)
+    logging.info('Step 1: Removing unneeded columns.')
+    books_df.drop(['ISBN','ReportDate'], axis=1, inplace=True)
+
 
 
 
     # 2. TODO: Remove records with empty and invalid PuublicationYear or ItemCollection.
+    logging.info('Step 2: Removing records with empty and invalid PuublicationYear or ItemCollection.')
+    books_df.dropna(subset=['ItemCollection'], inplace=True)
+    books_df = books_df[books_df['PublicationYear'] != 0]
+    books_df = books_df[books_df['PublicationYear'] != 9999]
+
+
 
 
 
     # 3. TODO: Update incorrect values (PublicationYear 2109 -> 2019)
+    logging.info('Step 3: Update incorrect values (PublicationYear 2109 -> 2019)')
+    books_df.replace(to_replace=2109, value=2019, inplace=True)
 
 
 
